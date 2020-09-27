@@ -9,6 +9,8 @@ import java.util.List;
 public interface FaceLibraryService extends IService<FaceLibrary> {
 
     List<FaceVO> getFaceList(int faceLibraryId);
+
+    boolean checkFaceLibraryExist(int libraryId);
 }
 
 

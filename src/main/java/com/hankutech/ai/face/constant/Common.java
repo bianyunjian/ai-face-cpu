@@ -13,6 +13,7 @@ public class Common {
      * 人脸得分的最低阈值
      */
     public static final float MIN_SIMI_SCORE = 0.35f;
+    public static final String IMG_FORMAT = "jpg";
 
     public static String RecognizeDataPathPrefix;
     public static String RegisterDataPathPrefix;
@@ -24,12 +25,18 @@ public class Common {
 
     public static void init() {
         System.out.println("registerImageDir:" + registerImageDir);
-        RegisterDataPathPrefix = registerImageDir + "/";
+        RegisterDataPathPrefix = registerImageDir;
+        if (RegisterDataPathPrefix.endsWith("/") == false) {
+            RegisterDataPathPrefix += "/";
+        }
         String testFile = RegisterDataPathPrefix + "test.txt";
         FileUtils.checkPath(testFile);
 
         System.out.println("recognizeImageDir:" + recognizeImageDir);
-        RecognizeDataPathPrefix = recognizeImageDir + "/";
+        RecognizeDataPathPrefix = recognizeImageDir;
+        if (RecognizeDataPathPrefix.endsWith("/") == false) {
+            RecognizeDataPathPrefix += "/";
+        }
         testFile = RecognizeDataPathPrefix + "test.txt";
         FileUtils.checkPath(testFile);
     }

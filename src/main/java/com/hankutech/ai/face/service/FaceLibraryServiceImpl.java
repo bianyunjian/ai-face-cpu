@@ -51,6 +51,17 @@ public class FaceLibraryServiceImpl extends ServiceImpl<FaceLibraryMapper, FaceL
         }
         return resp;
     }
+
+    @Override
+    public boolean checkFaceLibraryExist(int libraryId) {
+        QueryWrapper<FaceLibrary> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(FaceLibrary.COL_ID, libraryId);
+        FaceLibrary existRecord = getOne(queryWrapper, false);
+        if (existRecord == null) {
+            return false;
+        }
+        return true;
+    }
 }
 
 

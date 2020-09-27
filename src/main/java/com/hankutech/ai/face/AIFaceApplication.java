@@ -44,6 +44,8 @@ public class AIFaceApplication implements ApplicationRunner, DisposableBean, Web
     @Value("${app.face.recognizeImageDir}")
     private String recognizeImageDir;
 
+    @Value("${app.face.defaultFaceLibraryId}")
+    private int defaultFaceLibraryId;
 
     @Autowired
     private FaceLibraryService faceLibraryService;
@@ -68,6 +70,7 @@ public class AIFaceApplication implements ApplicationRunner, DisposableBean, Web
         Common.init();
 
         //人脸库
+        RuntimeContext.CurrentFaceLibraryId = defaultFaceLibraryId;
         RuntimeContext.PersonFaceVOList = faceLibraryService.getFaceList(RuntimeContext.CurrentFaceLibraryId);
         initNativeSDK(RuntimeContext.PersonFaceVOList);
         //启动线程

@@ -1,6 +1,7 @@
 package com.hankutech.ai.face.support.face;
 
 import com.ar.face.faceenginesdk.struct.model.ImageInfo;
+import com.ar.face.faceenginesdk.struct.model.detect.FaceDetectOutParam;
 import com.ar.face.faceenginesdk.struct.model.recognition.FaceRecognitionOutParam;
 import com.ar.face.faceenginesdk.struct.model.register.FaceRegisterOutParam;
 import org.slf4j.Logger;
@@ -86,4 +87,8 @@ public class FaceEngineWrapper {
         return FaceEngineNativeLibrary.recognition(imgInfo);
     }
 
+    public FaceDetectOutParam detect_Native(ImageInfo imgInfo) {
+
+        return FaceEngineNativeLibrary.detect(imgInfo);
+    }
 }

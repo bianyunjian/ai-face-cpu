@@ -94,6 +94,7 @@ public class BaseUtils {
                 }
                 builder.append(String.valueOf(f));
             }
+            fearureString = builder.toString();
         }
 
         return fearureString.getBytes(Charsets.UTF_8);
