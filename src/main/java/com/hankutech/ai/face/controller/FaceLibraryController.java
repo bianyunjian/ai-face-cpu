@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Validated
-@Tag(name = "/face", description = "人脸库接口")
+@Tag(name = "/face/library", description = "人脸库接口")
 @Slf4j
 @RequestMapping(path = "/runtime/v1/image-classify/face/library")
 @RestController

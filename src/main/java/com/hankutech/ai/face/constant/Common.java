@@ -14,6 +14,7 @@ public class Common {
      */
     public static final float MIN_SIMI_SCORE = 0.35f;
     public static final String IMG_FORMAT = "jpg";
+    public static final String PERSON_NAME_NONE = "NONE";
 
     public static String RecognizeDataPathPrefix;
     public static String RegisterDataPathPrefix;
