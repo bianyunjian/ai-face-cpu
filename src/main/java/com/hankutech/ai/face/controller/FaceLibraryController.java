@@ -168,21 +168,5 @@ public class FaceLibraryController {
         resp.success("查询图库列表成功");
         return resp;
     }
-//    @Operation(summary = "获取所有人脸")
-//    @GetMapping(path = "/all")
-//    public BaseResponse<PersonLibraryVO> getAll() {
-//        BaseResponse<PersonLibraryVO> resp = new BaseResponse<>();
-//        PersonLibraryVO data = _personService.getPersonLibrary();
-//        resp.success("获取所有人脸成功", data);
-//        return resp;
-//    }
 
-//    @Operation(summary = "创建人脸图库")
-//    @PostMapping(path = "/create")
-//    public BaseResponse<PagedData<PersonVO>> queryTable(@RequestBody @Validated QueryRequest<PersonParams> request) {
-//        PagedData<PersonVO> data = _personService.queryPersonTable(request.getPagedParams(), request.getQueryParams());
-//        BaseResponse<PagedData<PersonVO>> resp = new BaseResponse<>();
-//        resp.success("分页查询人脸成功", data);
-//        return resp;
-//    }
 }

@@ -28,7 +28,7 @@ public class FaceLibraryServiceImpl extends ServiceImpl<FaceLibraryMapper, FaceL
         queryWrapper.eq(FaceLibrary.COL_ID, faceLibraryId);
         FaceLibrary faceLibraryRecord = getOne(queryWrapper);
         if (faceLibraryRecord == null) {
-            log.error("cannot find the specified faceLibraryId:" + faceLibraryId);
+            log.error("找不到指定的人脸库faceLibraryId:" + faceLibraryId);
             return null;
         }
 
@@ -63,6 +63,7 @@ public class FaceLibraryServiceImpl extends ServiceImpl<FaceLibraryMapper, FaceL
         return true;
     }
 }
+
 
 
 

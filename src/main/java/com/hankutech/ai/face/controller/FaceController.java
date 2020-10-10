@@ -6,6 +6,7 @@ import com.ar.face.faceenginesdk.struct.model.FaceRecogInfo;
 import com.ar.face.faceenginesdk.struct.model.detect.FaceDetectOutParam;
 import com.ar.face.faceenginesdk.struct.model.recognition.FaceRecognitionOutParam;
 import com.hankutech.ai.face.constant.Common;
+import com.hankutech.ai.face.constant.RuntimeContext;
 import com.hankutech.ai.face.pojo.request.FaceDetectParams;
 import com.hankutech.ai.face.pojo.request.FaceRecognizeParams;
 import com.hankutech.ai.face.pojo.response.BaseResponse;
@@ -15,6 +16,7 @@ import com.hankutech.ai.face.pojo.vo.face.*;
 import com.hankutech.ai.face.service.FaceLibraryService;
 import com.hankutech.ai.face.service.FaceService;
 import com.hankutech.ai.face.service.db.Face;
+import com.hankutech.ai.face.support.face.FaceEngineWrapper;
 import com.hankutech.ai.face.worker.FaceDetectWorker;
 import com.hankutech.ai.face.worker.FaceRecognizeWorker;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
 @Validated
@@ -129,5 +132,25 @@ public class FaceController {
         return faceRect;
     }
 
+
+    @Operation(summary = "重新加载人脸库")
+    @GetMapping(path = "/reload")
+    public BaseResponse reload(@RequestParam Integer requestFaceLibraryId, @RequestParam Integer productId, @RequestParam String apikey) {
+        System.out.println("重新加载人脸库" + requestFaceLibraryId);
+        BaseResponse resp = new BaseResponse<>();
+        if (requestFaceLibraryId > 0) {
+            RuntimeContext.CurrentFaceLibraryId = requestFaceLibraryId;
+        }
+        RuntimeContext.PersonFaceVOList = faceLibraryService.getFaceList(RuntimeContext.CurrentFaceLibraryId);
+        try {
+            FaceEngineWrapper.initNativeSDK(RuntimeContext.PersonFaceVOList);
+            resp.success("reload success");
+        } catch (InvalidObjectException e) {
+            e.printStackTrace();
+            resp.fail(e.getMessage());
+        }
+
+        return resp;
+    }
 
 }

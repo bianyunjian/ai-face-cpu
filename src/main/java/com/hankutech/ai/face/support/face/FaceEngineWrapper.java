@@ -1,13 +1,19 @@
 package com.hankutech.ai.face.support.face;
 
+import com.ar.face.faceenginesdk.struct.model.FaceRegInfo;
 import com.ar.face.faceenginesdk.struct.model.ImageInfo;
 import com.ar.face.faceenginesdk.struct.model.detect.FaceDetectOutParam;
 import com.ar.face.faceenginesdk.struct.model.recognition.FaceRecognitionOutParam;
 import com.ar.face.faceenginesdk.struct.model.register.FaceRegisterOutParam;
+import com.hankutech.ai.face.pojo.vo.FaceVO;
+import com.hankutech.ai.face.support.BaseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.InvalidObjectException;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author yunjian.bian
@@ -90,5 +96,52 @@ public class FaceEngineWrapper {
     public FaceDetectOutParam detect_Native(ImageInfo imgInfo) {
 
         return FaceEngineNativeLibrary.detect(imgInfo);
+    }
+
+
+    public static void initNativeSDK(List<FaceVO> faceVOList) throws InvalidObjectException {
+        FaceEngineConfigParam configParam = getFaceEngineConfigParam();
+        FaceEngineWrapper.initFaceEngineWrapper(configParam);
+        if (FaceEngineWrapper.getInstance().checkIfReady_Native() == false) {
+            throw new InvalidObjectException("Native SDK初始化失败！");
+        }
+
+        if (faceVOList != null && faceVOList.size() > 0) {
+            System.out.println("人脸库数量:" + faceVOList.size());
+            HashMap<String, FaceRegisterOutParam> faceMap = new HashMap<>();
+
+            for (FaceVO p : faceVOList) {
+                FaceRegisterOutParam newParam = new FaceRegisterOutParam();
+                newParam.id = p.getId();
+                newParam.personName = p.getPersonName();
+                newParam.faceRegInfoArray = new FaceRegInfo[1];
+                newParam.faceRegInfoArray[0] = new FaceRegInfo();
+                newParam.faceRegInfoArray[0].personId = String.valueOf(newParam.id);
+                for (int i = 0; i < newParam.faceRegInfoArray[0].faceFtrArray.length; i++) {
+                    newParam.faceRegInfoArray[0].faceFtrArray[i] = p.getFaceFeatures()[i];
+                }
+                faceMap.put(p.getId().toString(), newParam);
+            }
+
+            boolean initFaceSuccess = FaceEngineWrapper.getInstance().initRegisterFace_Native(faceMap);
+            if (initFaceSuccess == false) {
+                throw new InvalidObjectException("Native SDK初始化人脸库失败！");
+            }
+            System.out.println("Native SDK初始化人脸库成功！");
+        }
+    }
+    public static FaceEngineConfigParam getFaceEngineConfigParam() {
+
+        FaceEngineConfigParam configParam = new FaceEngineConfigParam();
+        configParam.setConfigPath("");
+        configParam.setSupportNativeFaceDetect(true);
+        configParam.setSupportNativeFaceRecognize(true);
+
+        String logFilePath = BaseUtils.getRootPath() + "/DebugLog";
+        File f = new File(logFilePath);
+        if (f.exists() == false) f.mkdirs();
+        configParam.setLogFilePath(logFilePath);
+
+        return configParam;
     }
 }

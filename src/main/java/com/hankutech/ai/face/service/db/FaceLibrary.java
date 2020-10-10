@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName(value = "ai_server_face_cpu.face_library")
+@TableName(value = "face_library")
 public class FaceLibrary {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;

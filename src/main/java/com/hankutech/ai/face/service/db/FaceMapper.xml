@@ -3,7 +3,7 @@
 <mapper namespace="com.hankutech.ai.face.service.db.FaceMapper">
   <resultMap id="BaseResultMap" type="com.hankutech.ai.face.service.db.Face">
     <!--@mbg.generated-->
-    <!--@Table ai_server_face_cpu.face-->
+    <!--@Table face-->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="face_library_id" jdbcType="INTEGER" property="faceLibraryId" />
     <result column="person_name" jdbcType="VARCHAR" property="personName" />
@@ -11,7 +11,7 @@
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.hankutech.ai.face.service.db.Face">
     <!--@mbg.generated-->
-    <!--@Table ai_server_face_cpu.face-->
+    <!--@Table face-->
     <result column="features" jdbcType="BLOB" property="features" />
   </resultMap>
   <sql id="Base_Column_List">
