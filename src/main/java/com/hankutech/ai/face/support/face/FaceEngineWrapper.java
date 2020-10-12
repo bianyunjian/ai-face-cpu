@@ -1,5 +1,6 @@
 package com.hankutech.ai.face.support.face;
 
+import cn.hutool.core.lang.Assert;
 import com.ar.face.faceenginesdk.struct.model.FaceRegInfo;
 import com.ar.face.faceenginesdk.struct.model.ImageInfo;
 import com.ar.face.faceenginesdk.struct.model.detect.FaceDetectOutParam;
@@ -37,15 +38,15 @@ public class FaceEngineWrapper {
         getInstance().updateConfigParam(param);
 
         if (getInstance().param.isSupportNativeFaceDetect()) {
-            boolean initSuccess = false;
+            boolean initSuccess = true;
             if (getInstance().checkIfReady_Native() == false) {
-                initSuccess = getInstance().init_Native(getInstance().param.getConfigPath(), getInstance().param.getLogFilePath());
+                initSuccess &= getInstance().init_Native(getInstance().param.getConfigPath(), getInstance().param.getLogFilePath());
             }
             if (initSuccess) {
                 logger.info("FaceEngineWrapper init_Native success");
 
                 if (getInstance().param.getFaceRegisterMap() != null) {
-                    initSuccess = getInstance().initRegisterFace_Native(getInstance().param.getFaceRegisterMap());
+                    initSuccess &= getInstance().initRegisterFace_Native(getInstance().param.getFaceRegisterMap());
                 }
                 if (initSuccess) {
                     logger.info("FaceEngineWrapper initRegisterFace_Native success");
@@ -118,6 +119,9 @@ public class FaceEngineWrapper {
                 newParam.faceRegInfoArray[0] = new FaceRegInfo();
                 newParam.faceRegInfoArray[0].personId = String.valueOf(newParam.id);
                 for (int i = 0; i < newParam.faceRegInfoArray[0].faceFtrArray.length; i++) {
+//                    System.out.println(p.toString());
+                    Assert.notNull(p);
+                    Assert.notNull(p.getFaceFeatures());
                     newParam.faceRegInfoArray[0].faceFtrArray[i] = p.getFaceFeatures()[i];
                 }
                 faceMap.put(p.getId().toString(), newParam);
@@ -130,6 +134,7 @@ public class FaceEngineWrapper {
             System.out.println("Native SDK初始化人脸库成功！");
         }
     }
+
     public static FaceEngineConfigParam getFaceEngineConfigParam() {
 
         FaceEngineConfigParam configParam = new FaceEngineConfigParam();

@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.hankutech</groupId>
-    <artifactId>ai-server-face-gpu</artifactId>
+    <artifactId>ai-server-face-cpu</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ai-server-face-gpu</name>
+    <name>ai-server-face-cpu</name>
     <description>人脸识别服务CPU版</description>
 
     <properties>
